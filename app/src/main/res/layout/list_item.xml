@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <!--tool:text is used to help us see what the app will look like -->
+    <!--while programming but not actually show up at runtime-->
+    <TextView
+        android:id="@+id/miwok_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Miwok Word" />
+
+    <TextView
+        android:id="@+id/default_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="definition" />
+
+</LinearLayout>
