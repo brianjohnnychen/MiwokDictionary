@@ -3,21 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
-    <!--tool:text is used to help us see what the app will look like -->
-    <!--while programming but not actually show up at runtime-->
-    <TextView
-        android:id="@+id/miwok_text_view"
+    <!--Horizonal LinearLayout that contains picture and then word objects-->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Miwok Word" />
+        android:minHeight="@dimen/list_item_height"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/default_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="definition" />
+        <ImageView
+            android:id="@+id/word_image"
+            android:layout_width="@dimen/list_item_height"
+            android:layout_height="@dimen/list_item_height"
+            android:background="#FFF7DA" />
+        <!--android:src="@mipmap/ic_launcher" (was used as placeholder image for word, can be deleted)-->
+
+        <!--Vertical layout to hold word and definition-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
+
+            <!--tool:text is used to help us see what the app will look like -->
+            <!--while programming but not actually show up at runtime-->
+            <TextView
+                android:id="@+id/miwok_text_view"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:textStyle="bold"
+                tools:text="Miwok Word" />
+
+            <TextView
+                android:id="@+id/default_text_view"
+                android:layout_width="match_parent"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:layout_height="0dp"
+                tools:text="definition" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/phrases_list"
+    android:background="#16AFCA"
     tools:context="com.example.android.miwok.PhrasesActivity">
 
 </ListView>

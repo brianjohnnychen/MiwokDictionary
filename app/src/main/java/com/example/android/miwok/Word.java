@@ -12,6 +12,12 @@ public class Word {
     private String mDefaultTranslation;
     private String mMiwokTranslation;
 
+    //image resource ID, set it to -1 by default to indicate no image, will be changed to true if an image id is found
+    private int mImageResourceId = NO_IMAGE_PROVIDED;
+
+    //variable to determine if an image is provided for the word
+    private static final int NO_IMAGE_PROVIDED = -1;
+
     /**
      * Class constructor
      *
@@ -21,6 +27,19 @@ public class Word {
     public Word(String defaultTranslation, String miwokTranslation) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
+    }
+
+    /**
+     * 2nd Class constructor for Words that need a corresponding image
+     *
+     * @param defaultTranslation The translation of the word in the user's primary language
+     * @param miwokTranslation   Miwok translation of the word
+     * @param imageResourceId    Id for the icon image
+     */
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId) {
+        mDefaultTranslation = defaultTranslation;
+        mMiwokTranslation = miwokTranslation;
+        mImageResourceId = imageResourceId;
     }
 
     /**
@@ -35,5 +54,16 @@ public class Word {
      */
     public String getmMiwokTranslation() {
         return mMiwokTranslation;
+    }
+
+    public int getmImageResourceId() {
+        return mImageResourceId;
+    }
+
+    //check if an image is provided for the word
+    public boolean hasImage()
+    {
+        //if the image resource is not equal to -1, then there is a valid image, so return true
+        return mImageResourceId != NO_IMAGE_PROVIDED;
     }
 }

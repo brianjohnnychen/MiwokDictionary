@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/family_list"
+    android:background="#379237"
     tools:context="com.example.android.miwok.FamilyMembersActivity">
 
 </ListView>
