@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/numbers_list"
-    android:background="#FD8E09"
     tools:context="com.example.android.miwok.NumbersActivity">
 
 </ListView>

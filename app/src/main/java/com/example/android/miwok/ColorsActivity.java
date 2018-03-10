@@ -32,7 +32,7 @@ public class ColorsActivity extends AppCompatActivity {
          * This list item layout contains a single {@link TextView}, which the adapter will set to display a single word
          * */
         //ArrayAdapter<Word> itemsAdapter = new ArrayAdapter<Word>(this, R.layout.list_item, words);
-        WordAdapter wordAdapter = new WordAdapter(this, words);
+        WordAdapter wordAdapter = new WordAdapter(this, words, R.color.category_colors);
 
         /**
          * Find the {@link ListView} object in the view hierarchy of the {@link Activity}.

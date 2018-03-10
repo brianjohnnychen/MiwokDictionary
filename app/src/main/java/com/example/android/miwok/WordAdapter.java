@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,12 @@ import java.util.List;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
-    public WordAdapter(@NonNull Context context, @NonNull List<Word> objects) {
-        super(context, 0, objects);
+    //Resource ID for the background color for this list of words
+    private int mColorResourceId;
+
+    public WordAdapter(@NonNull Context context, @NonNull List<Word> words, int colorResourceId) {
+        super(context, 0, words);
+        mColorResourceId = colorResourceId;
     }
 
     @NonNull
@@ -62,7 +67,14 @@ public class WordAdapter extends ArrayAdapter<Word> {
             wordImage.setVisibility(View.GONE);
         }
 
+        //set the theme color for the list item
+        View textContainer = listItemView.findViewById(R.id.text_container);
+        //find the color that the resource Id maps to
+        int color = ContextCompat.getColor(getContext(), mColorResourceId);
+        //set the background color of the text container view
+        textContainer.setBackgroundColor(color);
 
+        //return the whole list item layout (containing 2 TextViews) so that it can be shown in the ListView
         return listItemView;
     }
 }

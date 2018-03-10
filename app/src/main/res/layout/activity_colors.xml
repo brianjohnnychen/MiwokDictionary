@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/colors_list"
-    android:background="#8800A0"
     tools:context="com.example.android.miwok.ColorsActivity">
 
 </ListView>

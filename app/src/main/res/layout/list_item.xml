@@ -21,9 +21,10 @@
 
         <!--Vertical layout to hold word and definition-->
         <LinearLayout
+            android:id="@+id/text_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="16dp"
+            android:paddingLeft="16dp"
             android:orientation="vertical">
 
             <!--tool:text is used to help us see what the app will look like -->
