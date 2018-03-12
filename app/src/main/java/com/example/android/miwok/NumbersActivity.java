@@ -1,18 +1,23 @@
 package com.example.android.miwok;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
+
+    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class NumbersActivity extends AppCompatActivity {
 //        Log.v("NumbersActivity", "Word at index 0 is: " + words[0]);
 
         //use arrayList instead to make list more flexible
-        ArrayList<Word> words = new ArrayList<Word>();
+        final ArrayList<Word> words = new ArrayList<Word>();
 
 //        words.add("one");
 //        words.add("two");
@@ -48,16 +53,16 @@ public class NumbersActivity extends AppCompatActivity {
 //        words.add("nine");
 //        words.add("ten");
 
-        words.add(new Word("one", "lutti", R.drawable.number_one));
-        words.add(new Word("two", "otiiko", R.drawable.number_two));
-        words.add(new Word("three", "tolockosu", R.drawable.number_three));
-        words.add(new Word("four", "oyylsa", R.drawable.number_four));
-        words.add(new Word("five", "massokka", R.drawable.number_five));
-        words.add(new Word("six", "temmokka", R.drawable.number_six));
-        words.add(new Word("seven", "kenekaku", R.drawable.number_seven));
-        words.add(new Word("eight", "kawinta", R.drawable.number_eight));
-        words.add(new Word("nine", "wo'e", R.drawable.number_nine));
-        words.add(new Word("ten", "na'aacha", R.drawable.number_ten));
+        words.add(new Word("one", "lutti", R.drawable.number_one, R.raw.number_one));
+        words.add(new Word("two", "otiiko", R.drawable.number_two, R.raw.number_two));
+        words.add(new Word("three", "tolockosu", R.drawable.number_three, R.raw.number_three));
+        words.add(new Word("four", "oyylsa", R.drawable.number_four, R.raw.number_four));
+        words.add(new Word("five", "massokka", R.drawable.number_five, R.raw.number_five));
+        words.add(new Word("six", "temmokka", R.drawable.number_six, R.raw.number_six));
+        words.add(new Word("seven", "kenekaku", R.drawable.number_seven, R.raw.number_seven));
+        words.add(new Word("eight", "kawinta", R.drawable.number_eight, R.raw.number_eight));
+        words.add(new Word("nine", "wo'e", R.drawable.number_nine, R.raw.number_nine));
+        words.add(new Word("ten", "na'aacha", R.drawable.number_ten, R.raw.number_ten));
 
 
         int logIndex = 0;
@@ -79,7 +84,7 @@ public class NumbersActivity extends AppCompatActivity {
         /**
          * Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
          * There should be a {@link ListView} with the view ID called list, which is declared in activity_numbers.xml layout file.*/
-        ListView listView = (ListView) findViewById(R.id.numbers_list);
+        ListView listView = findViewById(R.id.numbers_list);
         //GridView gridView = (GridView) findViewById(R.id.list);
 
         /**
@@ -87,7 +92,15 @@ public class NumbersActivity extends AppCompatActivity {
          * Do this by calling the setAdapter method on the {@link ListView} object and pass in 1 argument, which is the {@link ArrayAdapter} with the variable name itemsAdapter.*/
         listView.setAdapter(wordAdapter);
 
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(NumbersActivity.this, "List item clicked.", Toast.LENGTH_SHORT).show();
+                Word word = words.get(position);
+                mMediaPlayer = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceId());
+                mMediaPlayer.start(); //no need to call prepare(), create() does that for you
+            }
+        });
         //LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
         //TextView wordView = new TextView(this); //this means this class
         //wordView.setText(words.get(0));
