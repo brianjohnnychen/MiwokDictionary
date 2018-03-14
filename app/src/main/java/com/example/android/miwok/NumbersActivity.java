@@ -1,5 +1,12 @@
 package com.example.android.miwok;
 
+/*
+* Audio Manager is only applied to NumbersActivity to test audio focus differences between
+* this activity and other activities when other apps also need audio focus.
+* */
+
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,15 +22,59 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+
 public class NumbersActivity extends AppCompatActivity {
 
+    //handles playback of all the sound files
     private MediaPlayer mMediaPlayer;
+
+    //handles audio focus when playing a sound file
+    private AudioManager mAudioManager;
+
+    //listener to determine who has audio focus
+    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                            focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                        /*
+                        * AUDIO_FOCUS_LOSS_TRANSIENT means we've lost audio focus for a short amount of time. The CAN_DUCK case menas
+                        * our app is allowed to continue playing sound but at a lower volume.
+                        * We'll treat both cases the same way because our app is playing short sound files.
+                        * */
+
+                        //pause playback
+                        mMediaPlayer.pause();
+                        //set audio back to play from beginning since word/phrase is short
+                        //also better to listen to whole word again than half way
+                        mMediaPlayer.seekTo(0);
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                        //resume playback
+                        mMediaPlayer.start();
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                        //mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
+                        releaseMediaPlayer();
+                    }
+                }
+            };
+
+    //declare globally so it only needs to be created once
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_numbers);
 
+        //create and setup the {@link AudioManager} to request audio focus
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 //        //create an array of words
 //        String[] words = new String[10];
 //        words[0] = "one";
@@ -96,9 +147,35 @@ public class NumbersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(NumbersActivity.this, "List item clicked.", Toast.LENGTH_SHORT).show();
+
+                //release media player if it currently exists because we are about to play a different sound file
+                //in case user taps multiple items in a row before sound ends and OnCompleteListener doesn't get triggered
+                releaseMediaPlayer();
+
                 Word word = words.get(position);
-                mMediaPlayer = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceId());
-                mMediaPlayer.start(); //no need to call prepare(), create() does that for you
+
+/*              Note: If you concatenate (with the “+” operator) a string with a Word object,
+                then Java will implicitly call the toString() method on the object.
+                That means, these two statements are equivalent:
+*/
+                Log.v("NumbersActivity", "Current word: " + word); //implicitly call toString method to see contents of current word
+                Log.v("NumbersActivity", "Current word: " + word.toString());
+
+                // Request audio focus for playback
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        // Use the music stream.
+                        AudioManager.STREAM_MUSIC,
+                        // Request short term focus.
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // Start playback if audio focus is granted
+                    mMediaPlayer = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceId());
+                    mMediaPlayer.start(); //no need to call prepare(), create() does that for you
+
+                    //setup a listener on the media player to stop and release media player once sound done playing
+                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
             }
         });
         //LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
@@ -121,6 +198,34 @@ public class NumbersActivity extends AppCompatActivity {
 //            wordView.setText(words.get(index));
 //            rootView.addView(wordView);
 //        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //release media player to stop sounds when activity is stopped
+        //use releaseMediaPlyaer() method instead of release() because there's extra logic to set MediaPlayer back to null
+        releaseMediaPlayer();
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mMediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mMediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mMediaPlayer = null;
+
+            //abandon audio focus when playback complete
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
+        }
     }
 }
 

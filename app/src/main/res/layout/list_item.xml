@@ -2,54 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="@dimen/list_item_height"
+    android:background="@color/tan_background"
+    android:minHeight="@dimen/list_item_height"
+    android:orientation="horizontal">
 
-    <!--Horizonal LinearLayout that contains picture and then word objects-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/list_item_height"
-        android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/word_image"
+        android:layout_width="@dimen/list_item_height"
+        android:layout_height="@dimen/list_item_height" />
 
-        <ImageView
-            android:id="@+id/word_image"
-            android:layout_width="@dimen/list_item_height"
-            android:layout_height="@dimen/list_item_height"
-            android:background="#FFF7DA" />
-        <!--android:src="@mipmap/ic_launcher" (was used as placeholder image for word, can be deleted)-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <!--Vertical layout to hold word and definition-->
         <LinearLayout
             android:id="@+id/text_container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="16dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
 
-            <!--tool:text is used to help us see what the app will look like -->
-            <!--while programming but not actually show up at runtime-->
             <TextView
                 android:id="@+id/miwok_text_view"
-                android:textColor="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="bottom"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white"
                 android:textStyle="bold"
-                tools:text="Miwok Word" />
+                tools:text="Miwok word" />
 
             <TextView
                 android:id="@+id/default_text_view"
                 android:layout_width="match_parent"
-                android:textColor="@android:color/white"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:layout_height="0dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white"
                 tools:text="definition" />
+
         </LinearLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignRight="@id/text_container"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_play_arrow_white_24dp" />
 
+    </RelativeLayout>
 
 </LinearLayout>

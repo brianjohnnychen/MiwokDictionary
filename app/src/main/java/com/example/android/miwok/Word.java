@@ -11,16 +11,13 @@ import android.view.MenuItem;
 
 public class Word {
 
+    //variable to determine if an image is provided for the word
+    private static final int NO_IMAGE_PROVIDED = -1;
     //default translation for the words. Lowercase m is added to indicate that these are private variables meant only for this class
     private String mDefaultTranslation;
     private String mMiwokTranslation;
-
     //image resource ID, set it to -1 by default to indicate no image, will be changed to true if an image id is found
     private int mImageResourceId = NO_IMAGE_PROVIDED;
-
-    //variable to determine if an image is provided for the word
-    private static final int NO_IMAGE_PROVIDED = -1;
-
     //Audio resource ID for the word
     private int mAudioResourceId;
 
@@ -91,5 +88,16 @@ public class Word {
     public int getAudioResourceId()
     {
         return mAudioResourceId;
+    }
+
+    //method to see what is within the Word class
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mDefaultTranslation='" + mDefaultTranslation + '\'' +
+                ", mMiwokTranslation='" + mMiwokTranslation + '\'' +
+                ", mImageResourceId=" + mImageResourceId +
+                ", mAudioResourceId=" + mAudioResourceId +
+                '}';
     }
 }
