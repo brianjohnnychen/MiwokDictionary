@@ -2,10 +2,13 @@
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/colors_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:drawSelectorOnTop="true"
     android:orientation="vertical"
-    android:id="@+id/colors_list"
     tools:context="com.example.android.miwok.ColorsActivity">
+
+    <!--draw selector on top is a one line code that makes the entire list view selectable-->
 
 </ListView>

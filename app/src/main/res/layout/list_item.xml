@@ -12,6 +12,7 @@
         android:layout_width="@dimen/list_item_height"
         android:layout_height="@dimen/list_item_height" />
 
+    <!--changed this section from LinearLayout to RelativeLayout so that it will show the play button-->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -23,6 +24,7 @@
             android:orientation="vertical"
             android:paddingLeft="16dp">
 
+            <!--tools:text is a placeholder to help see what the app will look like but not show at runtime-->
             <TextView
                 android:id="@+id/miwok_text_view"
                 android:layout_width="match_parent"
@@ -46,6 +48,7 @@
 
         </LinearLayout>
 
+        <!--image of the play button-->
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
