@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:drawSelectorOnTop="true"
-    android:orientation="vertical"
-    tools:context="com.example.android.miwok.PhrasesActivity">
+    android:orientation="vertical">
 
     <!--draw selector on top is a one line code that makes the entire list view selectable-->
 

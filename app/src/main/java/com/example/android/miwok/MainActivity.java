@@ -18,6 +18,8 @@ package com.example.android.miwok;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -31,47 +33,61 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        //find the view that shows the number category
-        TextView numbers = (TextView) findViewById(R.id.numbers);
+        //find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
-        //set a click listener on a new OnClickListener (similar to declaring a new separate class then constructing it)
-        numbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //create an intent to open the numbers activity
-                Intent intent = new Intent(MainActivity.this, NumbersActivity.class);
+        //create an adapter that knows which format should be shown on each page
+        CategoryAdapter adapter = new CategoryAdapter(this, getSupportFragmentManager());
 
-                //start the new intent
-                startActivity(intent);
-            }
-        });
+        //set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
 
-        TextView colors = (TextView) findViewById(R.id.colors);
-        colors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ColorsActivity.class);
-                startActivity(intent);
-            }
-        });
+        //give the TabLayout the ViewPager
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setElevation(0);
+        tabLayout.setupWithViewPager(viewPager);
 
-        TextView family = (TextView) findViewById(R.id.family);
-        family.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FamilyMembersActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        TextView phrases = (TextView) findViewById(R.id.phrases);
-        phrases.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PhrasesActivity.class);
-                startActivity(intent);
-            }
-        });
+//        //find the view that shows the number category
+//        TextView numbers = (TextView) findViewById(R.id.numbers);
+//
+//        //set a click listener on a new OnClickListener (similar to declaring a new separate class then constructing it)
+//        numbers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //create an intent to open the numbers activity
+//                Intent intent = new Intent(MainActivity.this, NumbersActivity.class);
+//
+//                //start the new intent
+//                startActivity(intent);
+//            }
+//        });
+//
+//        TextView colors = (TextView) findViewById(R.id.colors);
+//        colors.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ColorsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        TextView family = (TextView) findViewById(R.id.family);
+//        family.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, FamilyMembersActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        TextView phrases = (TextView) findViewById(R.id.phrases);
+//        phrases.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, PhrasesActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     /**
